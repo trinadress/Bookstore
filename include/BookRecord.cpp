@@ -1,7 +1,7 @@
 #include "BookRecord.h"
 #include <iostream>
 
-BookRecord::BookRecord() : title(""), author(""), numOfCopies(0)
+BookRecord::BookRecord() : Component(), title(""), author(""), numOfCopies(0)
 {}
 
 BookRecord::BookRecord(std::string titl, std::string auth, int num) :
@@ -35,5 +35,9 @@ void BookRecord::setAuthor(std::string auth) {
 void BookRecord::setNumOfCopies(int num) {
 	numOfCopies = num;
 }
+
+void BookRecord::add(Component *child) {}
+
+
 
 int BookRecord::id = 0;

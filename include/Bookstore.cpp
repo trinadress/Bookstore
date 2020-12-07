@@ -5,6 +5,30 @@
 Bookstore::Bookstore() {
 	inventory = new BookList();
 	it = new InventoryIterator(inventory->books);
+	BookRecord mat("Matilda", "Roald Dahl", 5);
+	BookRecord q("1Q84", "Haruki Murakami", 2);
+	BookRecord jaws("Jaws", "Peter Benchley", 9);
+	BookRecord drac("Dracula", "Bram Stroker", 6);
+	BookRecord frank("Frankenstein", "Mary Shelly", 14);
+	BookRecord twi("Twilight", "Stephanie Meyer", 10);
+	BookRecord deep("The Deep", "Peter Benchley", 3);
+	BookRecord cat("The Cat in the Hat", "Dr. Seuss", 18);
+	BookRecord fahr("Fahrenheit 451", "Ray Bradbury", 23);
+	BookRecord wind("The Wind-up Bird Chronicle", "Haruki Murakami", 7);
+	BookRecord kafka("Kafka on the Shore", "Haruki Murakami", 8);
+
+	addBook(mat);
+	addBook(q);
+	addBook(jaws);
+	addBook(drac);
+	addBook(frank);
+	addBook(twi);
+	addBook(deep);
+	addBook(cat);
+	addBook(fahr);
+	addBook(wind);
+	addBook(kafka);
+
 	std::cerr << "Bookstore constructor called" << std::endl;
 }
 
@@ -12,7 +36,7 @@ Bookstore::~Bookstore() {
 	delete it;
 }
 
-void Bookstore::addBook(BookRecord br) {
+void Bookstore::addBook(BookRecord &br) {
 	inventory->books.push_back(br);
 }
 
@@ -50,6 +74,12 @@ void Bookstore::deleteBook(BookRecord &br) {
 	}
 }
 
+void Bookstore::deleteBook(int index) {
+	if (0 <= index && inventory->books.size() > index && !inventory->books.empty()) {
+		inventory->books.erase(inventory->books.begin()+index);
+	}
+}
+
 int Bookstore::searchBook(BookRecord &br) {
 	it->begin();
 	BookRecord b = it->first();
@@ -61,6 +91,12 @@ int Bookstore::searchBook(BookRecord &br) {
 		}
 	}
 	return -1;
+}
+
+BookRecord Bookstore::searchBook(int index) {
+	if (0 <= index && inventory->books.size() > index && !inventory->books.empty()) {
+		return inventory->books[index];
+	}
 }
 
 int Bookstore::searchBookByTitle(std::string titl) {

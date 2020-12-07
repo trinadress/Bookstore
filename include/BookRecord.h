@@ -1,9 +1,10 @@
 #ifndef _BOOKRECORD_H_
 #define _BOOKRECORD_H_
 
+#include "Component.h"
 #include "string"
 
-class BookRecord {
+class BookRecord : public Component {
 	public:
 		BookRecord();
 		BookRecord(std::string titl, std::string auth, int num);
@@ -20,6 +21,8 @@ class BookRecord {
 			return (title == b1.title && author == b1.author 
 				&& numOfCopies == b1.numOfCopies);
 		}
+
+		void add(Component *child);
 
 	private:
 		static int id;

@@ -219,7 +219,8 @@ BookstoreFrame.o: ../BookstoreFrame.cpp ../BookstoreFrame.h \
  /usr/local/include/wx-3.1/wx/mdi.h \
  /usr/local/include/wx-3.1/wx/gtk/mdi.h ../include/Bookstore.h \
  ../include/BookList.h ../include/Container.h ../include/Iterator.h \
- ../include/BookRecord.h ../include/InventoryIterator.h
+ ../include/BookRecord.h ../include/Component.h \
+ ../include/InventoryIterator.h
 
 ../BookstoreFrame.h:
 
@@ -686,5 +687,7 @@ BookstoreFrame.o: ../BookstoreFrame.cpp ../BookstoreFrame.h \
 ../include/Iterator.h:
 
 ../include/BookRecord.h:
+
+../include/Component.h:
 
 ../include/InventoryIterator.h:

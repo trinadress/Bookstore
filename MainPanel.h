@@ -16,14 +16,44 @@ class MainPanel : public wxPanel {
 		void onAddNewBook(wxCommandEvent& event);
 		void onEditBook(wxCommandEvent& event);
 		void onDeleteBook(wxCommandEvent& event);
-		void onAdd(wxCommandEvent& event);
 
 		void onUpdateText(wxCommandEvent& event);
 
 	private:
+		Bookstore *b;
 		wxString text;
+		wxString a[7];
+		wxPanel *booklist_panel;
+		wxSizer *main_panel_sizer;
 
 		void init();
+		void booklistPanelInit();
+		void refreshBooklistPanel();
 };
+
+
+class BasicDialog: public wxDialog
+{
+public:
+
+	BasicDialog ( wxWindow * parent, wxWindowID id, const wxString & title,
+	              const wxPoint & pos = wxDefaultPosition,
+	              const wxSize & size = wxDefaultSize,
+	              long style = wxDEFAULT_DIALOG_STYLE );
+
+	virtual bool Validate();
+	wxTextCtrl * titleDialogText;
+	wxTextCtrl * authorDialogText;
+	wxTextCtrl * qtyDialogText;
+	wxString GetText();
+
+private:
+
+	void OnOk( wxCommandEvent & event );
+};
+
+
+
+
 
 #endif

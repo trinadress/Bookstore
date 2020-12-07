@@ -8,14 +8,6 @@ void MainPanel::init() {
 
 	b = new Bookstore();
 
-	a[0] = "Twilight";
-	a[1] = "Harry Potter";
-	a[2] = "Moby Dick";
-	a[3] = "1Q84";
-	a[4] = "Catcher in the Rye";
-	a[5] = "Frankenstein";
-	a[6] = "Dracula";
-
 	main_panel_sizer = new wxBoxSizer(wxVERTICAL);
 	this->SetBackgroundColour(wxColour(0, 0, 100));
 
@@ -34,7 +26,7 @@ void MainPanel::init() {
     wxSizer *button_sizer = new wxBoxSizer(wxHORIZONTAL);
 
 	wxTextCtrl *search_field = new wxTextCtrl(button_panel, wxID_ANY,
-								" ", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
+								"", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
 
     wxButton *search_button     = new wxButton(button_panel, wxID_ANY, "Search");
     wxButton *add_book_button    = new wxButton(button_panel, wxID_ANY, "Add Book");
@@ -62,20 +54,32 @@ void MainPanel::init() {
 
 // Inventory List Panel
 
+	wxPanel *label_panel = new wxPanel(this, wxID_ANY);
+	wxGridSizer *label_sizer = new wxGridSizer(1, 5, 0, 0);
+	wxStaticText *title = new wxStaticText(label_panel, wxID_ANY, wxT("Title"));
+	wxStaticText *author = new wxStaticText(label_panel, wxID_ANY, wxT("Author"));
+	wxStaticText *qty = new wxStaticText(label_panel, wxID_ANY, wxT("Qty"));
+	label_panel->SetBackgroundColour(wxColour(200, 200, 200));
+
+	label_sizer->Add(title, wxSizerFlags().Expand().Border(wxLEFT, 10));
+	label_sizer->Add(author, wxSizerFlags().Expand().Border(wxLEFT, 30));
+	label_sizer->Add(qty, wxSizerFlags().Expand().Border(wxLEFT, 85).Align(wxCENTER));
+	label_panel->SetSizer(label_sizer);
+	label_sizer->Layout();
+	main_panel_sizer->Add(label_panel, wxSizerFlags().Border(wxLEFT | wxRIGHT, 50).Expand());
+
     booklistPanelInit();
 
-    main_panel_sizer->Add(booklist_panel, wxSizerFlags().Border(wxRIGHT | wxLEFT).Align(wxCENTER));
+    main_panel_sizer->Add(booklist_panel, wxSizerFlags().Border(wxRIGHT | wxLEFT, 50).Align(wxCENTER).Expand());
     main_panel_sizer->AddSpacer(0);
     main_panel_sizer->Layout();
 
     this->SetSizer(main_panel_sizer);
-
-
 }
 
 void MainPanel::booklistPanelInit() {
-	booklist_panel = new wxPanel(this, wxID_ANY);
-	wxSizer *booklist_sizer = new wxBoxSizer(wxVERTICAL);
+	booklist_panel = new wxScrolledWindow(this, wxID_ANY, wxDefaultPosition, wxSize(1200, 500));
+	booklist_sizer = new wxBoxSizer(wxVERTICAL);
 	booklist_panel->SetBackgroundColour(wxColour(255, 255, 255));
 
 	wxString edit = "Edit";
@@ -87,58 +91,19 @@ void MainPanel::booklistPanelInit() {
 	std::vector<wxStaticText*> numOfCopiesString;
 	std::vector<wxButton*> editButtons;
 	std::vector<wxButton*> deleteButtons;
-//	int size = sizeof(a)/sizeof(a[0]);
-
-	wxPanel *label_panel = new wxPanel(booklist_panel, wxID_ANY);
-	wxGridSizer *label_sizer = new wxGridSizer(1, 4, 0, 0);
-	wxStaticText *title = new wxStaticText(label_panel, wxID_ANY, wxT("Title"));
-	wxStaticText *qty = new wxStaticText(label_panel, wxID_ANY, wxT("Qty"));
-	label_panel->SetBackgroundColour(wxColour(200, 200, 200));
-
-	label_sizer->Add(title, 1, wxEXPAND | wxALL);
-	label_sizer->Add(qty, 1, wxALL | wxALIGN_CENTER);
-	label_panel->SetSizer(label_sizer);
-	label_sizer->Layout();
-	booklist_sizer->Add(label_panel, wxSizerFlags().Expand());
-	booklist_sizer->AddSpacer(10);
-
-
-//	for(int i = 0; i < size; i++) {
-//		panel.push_back(new wxPanel(booklist_panel, wxID_ANY));
-//		panel[i]->SetSize(wxSize(800, 40));
-//		bookSizer.push_back(new wxGridSizer(1, 4, 0, 0));
-//		bookString.push_back(new wxStaticText(panel[i], wxID_ANY, a[i]));
-//		wxString myStr;
-//		myStr << i;
-//		numOfCopiesString.push_back(new wxStaticText(panel[i], wxID_ANY, myStr));
-//		editButtons.push_back(new wxButton(panel[i], i, edit));
-//	    editButtons[i]->Bind(wxEVT_BUTTON, &MainPanel::onEditBook, this);
-//		deleteButtons.push_back(new wxButton(panel[i], i, remove));
-//	    deleteButtons[i]->Bind(wxEVT_BUTTON, &MainPanel::onDeleteBook, this);
-//
-//
-//		bookSizer[i]->Add(bookString[i], 1, wxEXPAND | wxALL);
-//		bookSizer[i]->Add(numOfCopiesString[i], 1, wxALL | wxALIGN_CENTER);
-//		bookSizer[i]->Add(editButtons[i], 1, wxEXPAND | wxALL);
-//		bookSizer[i]->Add(deleteButtons[i], 1, wxEXPAND | wxALL);
-//		panel[i]->SetSizer(bookSizer[i]);
-//		bookSizer[i]->Layout();
-//
-//	    booklist_sizer->Add(panel[i], wxSizerFlags().Expand().Border(wxLEFT, 10));
-//	    booklist_sizer->AddSpacer(10);
-//	}
-
 
 	int i = 0;
 	b->it->begin();
 	while(!b->it->isDone()) {
-
 		panel.push_back(new wxPanel(booklist_panel, wxID_ANY));
-		panel[i]->SetSize(wxSize(800, 40));
-		bookSizer.push_back(new wxGridSizer(1, 4, 0, 0));
+		panel[i]->SetSize(wxSize(900, 40));
+		bookSizer.push_back(new wxGridSizer(1, 5, 0, 0));
 		wxString titleStr;
 		titleStr << b->it->currentItem().getTitle();
 		titleString.push_back(new wxStaticText(panel[i], wxID_ANY, titleStr));
+		wxString authStr;
+		authStr << b->it->currentItem().getAuthor();
+		authorString.push_back(new wxStaticText(panel[i], wxID_ANY, authStr));
 		wxString qtyStr;
 		qtyStr << b->it->currentItem().getNumOfCopies();
 		numOfCopiesString.push_back(new wxStaticText(panel[i], wxID_ANY, qtyStr));
@@ -147,11 +112,11 @@ void MainPanel::booklistPanelInit() {
 		deleteButtons.push_back(new wxButton(panel[i], i, remove));
 		deleteButtons[i]->Bind(wxEVT_BUTTON, &MainPanel::onDeleteBook, this);
 
-
 		bookSizer[i]->Add(titleString[i], 1, wxEXPAND | wxALL);
+		bookSizer[i]->Add(authorString[i], wxSizerFlags().Expand().Border(wxLEFT, 20));
 		bookSizer[i]->Add(numOfCopiesString[i], 1, wxALL | wxALIGN_CENTER);
 		bookSizer[i]->Add(editButtons[i], 1, wxEXPAND | wxALL);
-		bookSizer[i]->Add(deleteButtons[i], 1, wxEXPAND | wxALL);
+		bookSizer[i]->Add(deleteButtons[i], wxSizerFlags().Expand().Border(wxRIGHT, 20));
 		panel[i]->SetSizer(bookSizer[i]);
 		bookSizer[i]->Layout();
 
@@ -161,16 +126,11 @@ void MainPanel::booklistPanelInit() {
 		i++;
 		b->it->next();
 	}
-//
-//	b->it->begin();
-//	while(!b->it->isDone()) {
-//		std::cout << b->it->currentItem().getTitle() << std::endl;
-//		b->it->next();
-//	}
-
 
 	booklist_sizer->Layout();
 	booklist_panel->SetSizer(booklist_sizer);
+	booklist_panel->SetScrollbar(wxVERTICAL, 0, 10, 50);
+	booklist_panel->SetScrollRate(5, 5);
 }
 
 
@@ -179,7 +139,7 @@ void MainPanel::refreshBooklistPanel() {
 	std::cout << "panel destroyed" << std::endl;
 	booklistPanelInit();
 	std::cout << "panel created" << std::endl;
-    main_panel_sizer->Add(booklist_panel, wxSizerFlags().Border(wxRIGHT | wxLEFT).Align(wxCENTER));
+    main_panel_sizer->Add(booklist_panel, wxSizerFlags().Border(wxRIGHT | wxLEFT, 50).Align(wxCENTER).Expand());
     main_panel_sizer->AddSpacer(0);
     main_panel_sizer->Layout();
 
@@ -190,9 +150,63 @@ void MainPanel::refreshBooklistPanel() {
 // Handlers
 
 void MainPanel::onSearchBook(wxCommandEvent& event) {
-//	int index;
-//	index = b->searchBookByTitle(std::string(text));
+	std::string t = std::string(text);
+	std::cout << t << std::endl;
+	int index = b->searchBookByTitle(t);
+	std::cout << index << std::endl;
 
+	if (-1 != index) {
+		booklist_panel->Destroy();
+		BookRecord result = b->searchBook(index);
+		wxString titleStr;
+		wxString authorStr;
+		wxString numOfCopiesStr;
+
+		titleStr << result.getTitle();
+		authorStr << result.getAuthor();
+		numOfCopiesStr << result.getNumOfCopies();
+
+		searchResultPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(950, 100));
+		wxPanel *bookResultPanel = new wxPanel(searchResultPanel, wxID_ANY, wxDefaultPosition, wxSize(900, 40));
+		wxSizer *searchResultSizer = new wxBoxSizer(wxVERTICAL);
+		wxSizer *bookResultSizer = new wxGridSizer(1, 5, 0, 0);
+		searchResultPanel->SetBackgroundColour(wxColour(255, 255, 255));
+
+		searchResultPanel->SetSize(wxSize(800, 40));
+
+		wxStaticText *titleString = new wxStaticText(bookResultPanel, wxID_ANY, titleStr);
+		wxStaticText *authorString = new wxStaticText(bookResultPanel, wxID_ANY, authorStr);
+		wxStaticText *numOfCopiesString = new wxStaticText(bookResultPanel, wxID_ANY, numOfCopiesStr);
+		wxButton *editButton = new wxButton(bookResultPanel, wxID_ANY, wxT("Edit"));
+		wxButton *deleteButton = new wxButton(bookResultPanel, wxID_ANY, wxT("Delete"));
+		wxButton *backButton = new wxButton(searchResultPanel, wxID_ANY, wxT("Back to Inventory"));
+
+		editButton->Bind(wxEVT_BUTTON, &MainPanel::onEditBook, this);
+		deleteButton->Bind(wxEVT_BUTTON, &MainPanel::onDeleteBook, this);
+		backButton->Bind(wxEVT_BUTTON, &MainPanel::onBack, this);
+
+		bookResultSizer->Add(titleString, 1, wxEXPAND | wxALL);
+		bookResultSizer->Add(authorString, wxSizerFlags().Expand().Border(wxLEFT, 20));
+		bookResultSizer->Add(numOfCopiesString, 1, wxALL | wxALIGN_CENTER);
+		bookResultSizer->Add(editButton, 1, wxEXPAND | wxALL);
+		bookResultSizer->Add(deleteButton, wxSizerFlags().Expand().Border(wxRIGHT, 20));
+		bookResultPanel->SetSizer(bookResultSizer);
+		bookResultSizer->Layout();
+
+		searchResultSizer->Add(bookResultPanel, wxSizerFlags().Expand().Border(wxLEFT, 10));
+		searchResultSizer->Add(backButton, wxSizerFlags().Expand().Border(wxLEFT, 10));
+		searchResultPanel->SetSizer(searchResultSizer);
+		searchResultSizer->Layout();
+
+//		main_panel_sizer->Add(searchResultPanel, wxSizerFlags().Expand().Border(wxLEFT, 10));
+//		main_panel_sizer->AddSpacer(10);
+
+	    main_panel_sizer->Add(searchResultPanel, wxSizerFlags().Border(wxRIGHT | wxLEFT, 50).Align(wxCENTER).Expand());
+	    main_panel_sizer->Layout();
+
+	    this->SetSizer(main_panel_sizer);
+	    text.Clear();
+	}
 
 }
 void MainPanel::onAddNewBook(wxCommandEvent& event) {
@@ -209,8 +223,6 @@ void MainPanel::onAddNewBook(wxCommandEvent& event) {
 		BookRecord newBook(t, a, q);
 		b->addBook(newBook);
 		refreshBooklistPanel();
-
-//		std::cout << std::string(title) << " " << std::string(author) << " " << std::string(qty) << std::endl;
 	}
 
 }
@@ -224,8 +236,6 @@ void MainPanel::onEditBook(wxCommandEvent& event) {
 		int value = dialog.GetValue();
 		b->editNumOfCopies(br, value);
 		refreshBooklistPanel();
-
-		std::cout << value << std::endl;
 	}
 }
 void MainPanel::onDeleteBook(wxCommandEvent& event) {
@@ -237,21 +247,25 @@ void MainPanel::onDeleteBook(wxCommandEvent& event) {
 
 }
 
-//set text string to value of text field
 void MainPanel::onUpdateText(wxCommandEvent& event) {
-	std::cerr << "updatetext" << std::endl;
 	wxTextCtrl *tc = wxDynamicCast( event.GetEventObject(), wxTextCtrl );
-	std::cerr << "after dynamic cast" << std::endl;
 	if( tc != NULL )
 	{
-		std::cerr << "tc not null" << std::endl;
 		text = tc->GetValue();
-	  std::cerr << "got text value" << std::endl;
 	}
-	std::cerr << "end update text" << std::endl;
 }
 
+void MainPanel::onBack(wxCommandEvent &event) {
+	searchResultPanel->Destroy();
+	std::cout << "panel destroyed" << std::endl;
+	booklistPanelInit();
+	std::cout << "panel created" << std::endl;
+    main_panel_sizer->Add(booklist_panel, wxSizerFlags().Border(wxRIGHT | wxLEFT, 50).Align(wxCENTER).Expand());
+    main_panel_sizer->AddSpacer(0);
+    main_panel_sizer->Layout();
 
+    this->SetSizer(main_panel_sizer);
+}
 
 
 BasicDialog::BasicDialog ( wxWindow * parent, wxWindowID id, const wxString & title,

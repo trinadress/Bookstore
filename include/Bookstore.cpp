@@ -16,6 +16,11 @@ Bookstore::Bookstore() {
 	BookRecord fahr("Fahrenheit 451", "Ray Bradbury", 23);
 	BookRecord wind("The Wind-up Bird Chronicle", "Haruki Murakami", 7);
 	BookRecord kafka("Kafka on the Shore", "Haruki Murakami", 8);
+	BookRecord hunch("The Hunchback of Notre Dame", "Victor Hugo", 4);
+	BookRecord drag("The Girl with the Dragon Tattoo", "Steig Larsson", 7);
+	BookRecord fire("The Girl Who Played With Fire", "Steig Larsson", 4);
+	BookRecord mob("Moby Dick", "Herman Melville", 9);
+	BookRecord east("The East of Eden", "John Steinbeck", 12);
 
 	addBook(mat);
 	addBook(q);
@@ -28,8 +33,11 @@ Bookstore::Bookstore() {
 	addBook(fahr);
 	addBook(wind);
 	addBook(kafka);
-
-	std::cerr << "Bookstore constructor called" << std::endl;
+	addBook(hunch);
+	addBook(drag);
+	addBook(fire);
+	addBook(mob);
+	addBook(east);
 }
 
 Bookstore::~Bookstore() {
@@ -100,8 +108,13 @@ BookRecord Bookstore::searchBook(int index) {
 }
 
 int Bookstore::searchBookByTitle(std::string titl) {
+	it->begin();
 	BookRecord b = it->first();
+	std::cout << b.getTitle() << " " << titl << std::endl;
+	std::cout << it->isDone() << std::endl;
+	std::cout << it->getCursor() << std::endl;
 	while (!it->isDone()) {
+		std::cout << b.getTitle() << " " << titl << std::endl;
 		if (titl == b.getTitle()) {
 			return it->getCursor();
 		} else {

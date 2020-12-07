@@ -16,14 +16,16 @@ class MainPanel : public wxPanel {
 		void onAddNewBook(wxCommandEvent& event);
 		void onEditBook(wxCommandEvent& event);
 		void onDeleteBook(wxCommandEvent& event);
-
 		void onUpdateText(wxCommandEvent& event);
+		void onBack(wxCommandEvent& event);
 
 	private:
 		Bookstore *b;
 		wxString text;
 		wxString a[7];
-		wxPanel *booklist_panel;
+		wxScrolledWindow *booklist_panel;
+		wxPanel *searchResultPanel;
+		wxSizer *booklist_sizer;
 		wxSizer *main_panel_sizer;
 
 		void init();
@@ -51,8 +53,6 @@ private:
 
 	void OnOk( wxCommandEvent & event );
 };
-
-
 
 
 
